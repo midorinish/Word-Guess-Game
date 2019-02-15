@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../Word-Guess-Game/Assets/css/reset.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath./bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+      integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./Assets/css/style.css" />
+  </head>
+  <body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-4">Hangman</h1>
+        <p class="lead">
+          Dino Style
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8"><p>Your Word Is:</p></div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 mx auto"></div>
+    </div>
+
+    <div class="wordContainer">
+      <div class="row">
+        <div class="col-12 mx auto">
+          <p>Press any key to get started!</p>
+          <p>Current Word: <div id= "currentWord"></div></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mx auto">
+          <p>Number of Guesses Remaining:</p>
+          <p>Letters already guessed:<div id="display"></div></p>
+        </div>
+      </div>
+    </div>
+    <div id="display"></div>
+    <div id="buttons"></div>
+    <button id="clear">clear</button>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        
+        var letters = [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "_"
+        ];
+
+
+        
+        for (var i = 0; i < letters.length; i++) {
+        
+          var letterBtn = $("<button>");
+          letterBtn.addClass("letter-button letter letter-button-color");
+          letterBtn.attr("data-letter", letters[i]);
+          letterBtn.text(letters[i]);
+          $("#buttons").append(letterBtn);
+        }
+
+        
+
+        $(".letter-button").on("click", function() {
+          var fridgeMagnet = $("<div>");
+          fridgeMagnet.addClass("letter fridge-color");
+          fridgeMagnet.text($(this).attr("data-letter"));
+          $("#display").append(fridgeMagnet);
+        });
+
+                $("#clear").on("click", function() {
+          $("#display").empty();
+        });
+      });
+    </script>
+  </body>
+</html>

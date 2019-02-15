@@ -1,0 +1,25 @@
+body {
+  margin: 2rem;
+  padding: 0;
+}
+
+h1,
+h2,
+p {
+  text-align: center;
+}
+
+.jumbotron {
+  background-image: url(../images/dinobackground.jpg);
+  background-size: cover;
+  color: white;
+  margin: 0;
+}
+
+.wordContainer {
+  border: 2px solid black;
+}
+
+#display {
+  text-align: center;
+}
