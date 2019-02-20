@@ -56,77 +56,103 @@
       <div class="row">
         <div class="col-12 mx auto">
           <p>Press any key to get started!</p>
-          <p>Current Word: <div id= "currentWord"></div></p>
+          <h4>Wins</h4>
+          <div id= "totalWins"></div>
+          <h4>Current Word:</h4>
+          <div id= "currentWord"></div>
         </div>
       </div>
       <div class="row">
         <div class="col-12 mx auto">
-          <p>Number of Guesses Remaining:</p>
-          <p>Letters already guessed:<div id="display"></div></p>
+          <h4>Number of Guesses Remaining: </h4>
+          <div id="remainingGuesses"></div>
+          <h4>Letters already guessed:</h4>
+            <div id="guessedLetters"></div>
+            
         </div>
       </div>
     </div>
-    <div id="display"></div>
-    <div id="buttons"></div>
-    <button id="clear">clear</button>
+  
 
     <script type="text/javascript">
       $(document).ready(function() {
-        
-        var letters = [
-          "A",
-          "B",
-          "C",
-          "D",
-          "E",
-          "F",
-          "G",
-          "H",
-          "I",
-          "J",
-          "K",
-          "L",
-          "M",
-          "N",
-          "O",
-          "P",
-          "Q",
-          "R",
-          "S",
-          "T",
-          "U",
-          "V",
-          "W",
-          "X",
-          "Y",
-          "Z",
-          "_"
-        ];
 
+        var possibleWords= ["trex", "stegasaurus", "brachiosaurus", "spinosaurus",]
 
-        
-        for (var i = 0; i < letters.length; i++) {
-        
-          var letterBtn = $("<button>");
-          letterBtn.addClass("letter-button letter letter-button-color");
-          letterBtn.attr("data-letter", letters[i]);
-          letterBtn.text(letters[i]);
-          $("#buttons").append(letterBtn);
-        }
+        const maxGuess = 10;
+        var pauseGame = false;
 
-        
+        var guessedLetters = [];
+        var guessingWord = [];
+        var wordToMatch
+        var numGuess
+        var wins = 0;
 
-        $(".letter-button").on("click", function() {
-          var fridgeMagnet = $("<div>");
-          fridgeMagnet.addClass("letter fridge-color");
-          fridgeMagnet.text($(this).attr("data-letter"));
-          $("#display").append(fridgeMagnet);
-        });
+        resetGame()
 
-                $("#clear").on("click", function() {
-          $("#display").empty();
-        });
-      });
-    </script>
-  </body>
-</html>
+          document.onkeypress = function (event) {
+            if (isAlpha(event.key) && !pauseGame) {
+              checkforLetter(event.key.toUpperCase())
+            }
+          }
+
+          function checkforLetter(letter) {
+            var foundLetter = false;
+            
+            for (var i=0, j = wordToMatch.length; i < j; i++) {
+              if (letter === wordToMatch[i]) {
+                guessingWord[i] = letter;
+                foundLetter = true;
+                if (guessingWord.join("") === wordToMatch) {
+                  wins++;
+                  pauseGame = true;
+                  updateDisplay();
+                  setTimeout (resetGame, 5000);
+                }
+              }
+            }
+          if (!guessedLetters.includes(letter)) {
+            guessedLetters.push(letter);
+            numGuess--;
+          }
+          if (numGuess === 0) {
+            guessingWord = <wordToMatch class="split"></wordToMatch>;
+            pauseGame = true;
+            setTimeout(resetGame, 5000);
+            }
+          }
+           updateDisplay();
+
+           function isAlpha (ch) {
+             return /^[A-Z]$/i.test(ch);
+           }
+          
+          function resetGame () {
+            numGuess = maxGuess;
+            pauseGame = false;
+
+            wordToMatch = possibleWords [Math.floor(Math.random() * possibleWords.length)].toUpperCase();
+            console.log(wordToMatch);
+
+            guessedLetters = [];
+            guessingWord = [];
+
+            for (var i = 0, j=wordToMatch.length; i<j; i++) {
+              if (wordToMatch[i] === "") {
+                guessingWord.push("")
+              } else {
+                guessingWord.push("_")
+              }
+            }
+            updateDisplay()
+          }
+
+          function updateDisplay() {
+            document.getElementById ("totalWins").innerText = wins;
+            document.getElementById("currentWord").innerText = guessingWord;
+            document.getElementById("remainingGuesses").innerText = numGuess;
+            document.getElementById("guessedLetters").innerText = guessedLetters;
+          }
+          
+          })
+      
