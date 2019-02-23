@@ -57,102 +57,108 @@
         <div class="col-12 mx auto">
           <p>Press any key to get started!</p>
           <h4>Wins:</h4>
-          <div id= "totalWins"></div>
+          <div id="totalWins"></div>
           <h4>Current Word:</h4>
-          <div id= "currentWord"></div>
+          <div id="currentWord"></div>
         </div>
       </div>
       <div class="row">
         <div class="col-12 mx auto">
-          <h4>Number of Guesses Remaining: </h4>
+          <h4>Number of Guesses Remaining:</h4>
           <div id="remainingGuesses"></div>
           <h4>Letters already guessed:</h4>
-            <div id="guessedLetters"></div>
-            
+          <div id="guessedLetters"></div>
         </div>
       </div>
     </div>
-  
 
     <script type="text/javascript">
       $(document).ready(function() {
-
-        var possibleWords= ["trex", "stegasaurus", "brachiosaurus", "spinosaurus",]
+        var possibleWords = [
+          "trex",
+          "stegasaurus",
+          "brachiosaurus",
+          "spinosaurus"
+        ];
 
         const maxGuess = 10;
         var pauseGame = false;
 
         var guessedLetters = [];
         var guessingWord = [];
-        var wordToMatch
-        var numGuess
+        var wordToMatch;
+        var numGuess;
         var wins = 0;
 
-        resetGame()
+        resetGame();
 
-          document.onkeypress = function (event) {
-            if (isAlpha(event.key) && !pauseGame) {
-              checkforLetter(event.key.toUpperCase())
-            }
+        document.onkeypress = function(event) {
+          if (isAlpha(event.key && !pauseGame)) {
+            checkforLetter(event.key.toUpperCase());
           }
+          console.log(event);
+        };
 
-          function checkforLetter(letter) {
-            var foundLetter = false;
-            
-            for (var i=0, j = wordToMatch.length; i < j; i++) {
-              if (letter === wordToMatch[i]) {
-                guessingWord[i] = letter;
-                foundLetter = true;
-                if (guessingWord.join("") === wordToMatch) {
-                  wins++;
-                  pauseGame = true;
-                  updateDisplay();
-                  setTimeout (resetGame, 5000);
-                }
+        function checkforLetter(letter) {
+          var foundLetter = false;
+
+          for (var i = 0; i < wordToMatch.length; i++) {
+            if (letter === wordToMatch[i]) {
+              guessingWord[i] = letter;
+              foundLetter = true;
+              if (guessingWord.join("") === wordToMatch) {
+                wins++;
+                pauseGame = true;
+                updateDisplay();
+                setTimeout(resetGame, 5000);
               }
             }
+          }
           if (!guessedLetters.includes(letter)) {
             guessedLetters.push(letter);
             numGuess--;
           }
           if (numGuess === 0) {
-            guessingWord = <wordToMatch class="split"></wordToMatch>;
+            guessingWord = wordToMatch.split();
             pauseGame = true;
             setTimeout(resetGame, 5000);
+          }
+        }
+        updateDisplay();
+
+        function isAlpha(ch) {
+          return /^[A-Z]$/i.test(ch);
+        }
+
+        function resetGame() {
+          numGuess = maxGuess;
+          pauseGame = false;
+
+          wordToMatch = possibleWords[
+            Math.floor(Math.random() * possibleWords.length)
+          ].toUpperCase();
+          console.log(wordToMatch);
+
+          guessedLetters = [];
+          guessingWord = [];
+
+          for (var i = 0; i < wordToMatch.length; i++) {
+            if (wordToMatch[i] === "") {
+              guessingWord.push("");
+            } else {
+              guessingWord.push("_");
             }
           }
-           updateDisplay();
+          updateDisplay();
+        }
 
-           function isAlpha (ch) {
-             return /^[A-Z]$/i.test(ch);
-           }
-          
-          function resetGame () {
-            numGuess = maxGuess;
-            pauseGame = false;
-
-            wordToMatch = possibleWords [Math.floor(Math.random() * possibleWords.length)].toUpperCase();
-            console.log(wordToMatch);
-
-            guessedLetters = [];
-            guessingWord = [];
-
-            for (var i = 0, j=wordToMatch.length; i<j; i++) {
-              if (wordToMatch[i] === "") {
-                guessingWord.push("")
-              } else {
-                guessingWord.push("_")
-              }
-            }
-            updateDisplay()
-          }
-
-          function updateDisplay() {
-            document.getElementById ("totalWins").innerText = wins;
-            document.getElementById("currentWord").innerText = guessingWord;
-            document.getElementById("remainingGuesses").innerText = numGuess;
-            document.getElementById("guessedLetters").innerText = guessedLetters;
-          }
-          
-          })
-      
+        function updateDisplay() {
+          document.getElementById("totalWins").innerText = wins;
+          document.getElementById("currentWord").innerText = guessingWord;
+          document.getElementById("remainingGuesses").innerText = numGuess;
+          document.getElementById("guessedLetters").innerText = guessedLetters;
+        }
+      });
+    </script>
+  </body>
+</html>
